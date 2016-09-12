@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -84,8 +84,9 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>用Mac就是图个清静，所以广告不能忍。</p>
-<p>##突然出现的广告<br>这两天我如往常一样，用着Mac写代码、上网。然后，突然在我的屏幕上弹出了一个Paragon NTFS的广告，当时我就纳闷了：以前有次是要用ntfs格式的移动硬盘，在网上找了找，都说Paragon NTFS比较好，我当时就装了一个，因为是要收费的，后来我就换了mounty，把它卸载了。怎么现在还会提示广告呢？<br><img src="paragon-updater.png" alt="paragon-updater.png"><br>当时我是用的清理软件把Paragon NTFS给卸载了，是不是残留了一些文件？</p>
-<p>##寻找程序位置<br>我打开[Activity Montitor]，然后找到了进程[Paragon Updater]，点齿轮图标后的向下箭头，选择[Sample Process]，然后弹出[Sample of Paragon Updater]，窗口中就显示了这个进程的相关信息：<br><img src="sample-of-paragon-updater.png" alt=""><br> 其中最重要的一条信息：</p>
+<p>##突然出现的广告<br>这两天我如往常一样，用着Mac写代码、上网。然后，突然在我的屏幕上弹出了一个Paragon NTFS的广告，当时我就纳闷了：以前有次是要用ntfs格式的移动硬盘，在网上找了找，都说Paragon NTFS比较好，我当时就装了一个，因为是要收费的，后来我就换了mounty，把它卸载了。怎么现在还会提示广告呢？<br><img src="/2016/09/12/disabled-mac-login-items/paragon-updater.png" alt="paragon-updater.png" title=""><br>当时我是用的清理软件把Paragon NTFS给卸载了，是不是残留了一些文件？</p>
+<p>##寻找程序位置<br>我打开[Activity Montitor]，然后找到了进程[Paragon Updater]，点齿轮图标后的向下箭头，选择[Sample Process]，然后弹出[Sample of Paragon Updater]，窗口中就显示了这个进程的相关信息：<br><img src="/2016/09/12/disabled-mac-login-items/sample-of-paragon-updater.png" alt="sample-of-paragon-updater.png" title=""></p>
+<p> 其中最重要的一条信息：</p>
 <pre><code>Path:            /Library/Application Support/Paragon Updater/Paragon Updater.app/Contents/MacOS/Paragon Updater
 </code></pre><p>用Finder打开这个路径，就找到了Paragon Updater程序。正准备删除的时候，突然想到：它是怎么被启动的呢？我完全没有去操作它呀？肯定是开机启动项！</p>
 <p>##登录启动<br>一般的程序，会创建一条登录启动项，在用户登录进系统后，启动对应的应用程序。查看登录启动项的方法：点击苹果LOGO-&gt;[System Preferences]-&gt;[Users &amp; Groups]，然后右边的选项卡选择[Login Items]，就可以看到自己账户下的启动项了。不过并没有在这里看到Paragon Updater。</p>
@@ -107,7 +108,7 @@ sudo rm -f /Library/LaunchDaemons/com.paragon.ntfs12.refresh.plist
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/09/12/disabled-mac-login-items/" data-id="cit05k45k00012fhxxvkrsvi0" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/09/12/disabled-mac-login-items/" data-id="cit0615ch00004jhx2xcip846" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
@@ -154,7 +155,7 @@ sudo rm -f /Library/LaunchDaemons/com.paragon.ntfs12.refresh.plist
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/09/12/hello-world/" data-id="cit05k45c00002fhx0ldngead" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/09/12/hello-world/" data-id="cit0615cm00014jhxmez9uln7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -174,7 +175,7 @@ sudo rm -f /Library/LaunchDaemons/com.paragon.ntfs12.refresh.plist
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Mot-clés</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li></ul>
     </div>
@@ -184,7 +185,7 @@ sudo rm -f /Library/LaunchDaemons/com.paragon.ntfs12.refresh.plist
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <a href="/tags/linux/" style="font-size: 10px;">linux</a>
     </div>
@@ -203,7 +204,7 @@ sudo rm -f /Library/LaunchDaemons/com.paragon.ntfs12.refresh.plist
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
@@ -228,7 +229,7 @@ sudo rm -f /Library/LaunchDaemons/com.paragon.ntfs12.refresh.plist
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 John Doe<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>

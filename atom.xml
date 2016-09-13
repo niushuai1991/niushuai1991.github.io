@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>牛帅</title>
+  <subtitle>牛帅的博客</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://niushuai.info/"/>
+  <updated>2016-09-12T14:45:58.000Z</updated>
+  <id>http://niushuai.info/</id>
+  
+  <author>
+    <name>niushuai</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>关闭Mac系统里的自启动项</title>
+    <link href="http://niushuai.info/2016/09/12/disabled-mac-login-items/"/>
+    <id>http://niushuai.info/2016/09/12/disabled-mac-login-items/</id>
+    <published>2016-09-12T14:26:20.000Z</published>
+    <updated>2016-09-12T14:45:58.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>用Mac就是图个清静，所以广告不能忍。</p>
+<p>##突然出现的广告<br>这两天我如往常一样，用着Mac写代码、上网。然后，突然在我的屏幕上弹出了一个Paragon NTFS的广告，当时我就纳闷了：以前有次是要用ntfs格式的移动硬盘，在网上找了找，都说Paragon NTFS比较好，我当时就装了一个，因为是要收费的，后来我就换了mounty，把它卸载了。怎么现在还会提示广告呢？<br><img src="/2016/09/12/disabled-mac-login-items/paragon-updater.png" alt="paragon-updater.png" title=""><br>当时我是用的清理软件把Paragon NTFS给卸载了，是不是残留了一些文件？</p>
+<p>##寻找程序位置<br>我打开[Activity Montitor]，然后找到了进程[Paragon Updater]，点齿轮图标后的向下箭头，选择[Sample Process]，然后弹出[Sample of Paragon Updater]，窗口中就显示了这个进程的相关信息：<br><img src="/2016/09/12/disabled-mac-login-items/sample-of-paragon-updater.png" alt="sample-of-paragon-updater.png" title=""></p>
+<p> 其中最重要的一条信息：</p>
+<pre><code>Path:            /Library/Application Support/Paragon Updater/Paragon Updater.app/Contents/MacOS/Paragon Updater
+</code></pre><p>用Finder打开这个路径，就找到了Paragon Updater程序。正准备删除的时候，突然想到：它是怎么被启动的呢？我完全没有去操作它呀？肯定是开机启动项！</p>
+<p>##登录启动<br>一般的程序，会创建一条登录启动项，在用户登录进系统后，启动对应的应用程序。查看登录启动项的方法：点击苹果LOGO-&gt;[System Preferences]-&gt;[Users &amp; Groups]，然后右边的选项卡选择[Login Items]，就可以看到自己账户下的启动项了。不过并没有在这里看到Paragon Updater。</p>
+<p>除了登录启动项，还有开机自启动项。</p>
+<p>##开机自启动<br>Mac系统有一个命令行工具launchctl，一些程序会把自己的配置文件放在特定的目录里，然后通过这个工具创建自启动服务，配置文件放在以下三个位置：</p>
+<pre><code>/Library/LaunchDaemons/
+/Library/LaunchAgents/
+~/Library/LaunchAgents/
+</code></pre><p>最后，我在/Library/LaunchDaemons/和/Library/LaunchAgents/里都找到了Paragon相关的启动项配置文件，/Library/LaunchAgents/com.paragon.updater.plist这个文件就是启动Paragon Updater的配置文件。</p>
+<p>##动手清理<br>  看了这么多，最后可以动手清理了，自启动配置文件不要直接删除，而是先用launchctl将它从自启动里取消，然后再删除。</p>
+<pre><code>sudo launchctl unload /Library/LaunchAgents/com.paragon.updater.plist
+sudo launchctl unload /Library/LaunchDaemons/com.paragon.ntfs12.refresh.plist
+sudo rm -f /Library/LaunchAgents/com.paragon.updater.plist
+sudo rm -f /Library/LaunchDaemons/com.paragon.ntfs12.refresh.plist
+</code></pre><p>再去删除/Library/Application Support下的Paragon Software和Paragon Updater即可。</p>
+<p>该方法应该能适用于其它程序的类似情况。</p>
+<p>世界又恢复了以往的平静。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;用Mac就是图个清静，所以广告不能忍。&lt;/p&gt;
+&lt;p&gt;##突然出现的广告&lt;br&gt;这两天我如往常一样，用着Mac写代码、上网。然后，突然在我的屏幕上弹出了一个Paragon NTFS的广告，当时我就纳闷了：以前有次是要用ntfs格式的移动硬盘，在网上找了找，都说Paragon
+    
+    </summary>
+    
+    
+      <category term="linux" scheme="http://niushuai.info/tags/linux/"/>
+    
+  </entry>
+  
+</feed>

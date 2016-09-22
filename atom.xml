@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://niushuai.info/"/>
-  <updated>2016-09-21T12:29:01.000Z</updated>
+  <updated>2016-09-21T14:37:38.000Z</updated>
   <id>http://niushuai.info/</id>
   
   <author>
@@ -14,6 +14,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>什么是接口</title>
+    <link href="http://niushuai.info/2016/09/21/interface/"/>
+    <id>http://niushuai.info/2016/09/21/interface/</id>
+    <published>2016-09-21T12:52:48.000Z</published>
+    <updated>2016-09-21T14:37:38.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="什么是接口"><a href="#什么是接口" class="headerlink" title="什么是接口"></a>什么是接口</h3><p>在开发过程中，基本上一直都在接触接口，项目内上层调用下层就是用接口，与其它项目交换信息时也是通过接口。那么接口是什么呢？</p>
+<p>接口是一些方法的特征的集合，接口里面只有方法的特征而没有方法的具体实现。当我们看到接口的时候，就知道这个接口有哪些特征、它怎么用。比如说我们看到Runnable接口，里面只有一个抽象的run()方法，我们就知道是要把自己的业务方法放到run方法。而为什么要有Runnable接口呢？是因为Thread对象是默认我们给它的对象是有一个公有的、没有参数、没有返回值的run方法，不然线程没办法正常运行。如果我们给方法换一个名字，那Thread就找不到这个方法，线程也没办法按我们想的那样去运行。<br>有同学问：那为什么我们不去修改这个Thread类，把我们的方法放到Thread类里面呢？这个问题问的好！因为Thread类是大家都在用的，特别是协同工作的时候，公共的东西一旦被修改，很有可能会影响到别人的功能，用接口的话就实现了隔离，把我们自己的东西放在自己这边，把公有的东西还放在那不动，只按照它的规则去调用它即可。<br>所以从这里可以看出：<strong><em>接口就是一个统一的规范</em></strong>，它规定我们应该做一个什么样的东西，其它的对象就可以去调用我们的方法而不去管我们是怎么做的，如果因为业务的变动，需要我们重写这些方法，只要我们继承了这个接口，实现方法，就依然能够正常使用。</p>
+<h3 id="使用接口有什么好处？"><a href="#使用接口有什么好处？" class="headerlink" title="使用接口有什么好处？"></a>使用接口有什么好处？</h3><ol>
+<li>使用接口的话，就不用是关心对应的方法是怎么实现了，只要按接口去用即可。减少了工作量。</li>
+<li>因为接口的规范性，只要接口没有变化，那不用关心接口的实现是否修改，调用方都不需要去修改实现逻辑。所以提高的代码的灵活性和可维护性。</li>
+<li>如果不同层面之间使用接口的话，能够做到同时开发，不需要等对方把方法写出来。提高了工作效率。</li>
+</ol>
+<h3 id="接口和抽象类有什么区别？"><a href="#接口和抽象类有什么区别？" class="headerlink" title="接口和抽象类有什么区别？"></a>接口和抽象类有什么区别？</h3><p>接口和抽象类虽然大体是类似，如果抽象类里都是抽象方法的话，和接口基本上就一致了。但是它们两个仍然是不同的东西。当一些类具有相同的实现时，我们就可以把这些实现提取到抽象类中，实现了代码的重复使用。而接口是规定它的子类应该实现的一些规范。也就是说接口和抽象类区别就在于它们的使用目的上。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;什么是接口&quot;&gt;&lt;a href=&quot;#什么是接口&quot; class=&quot;headerlink&quot; title=&quot;什么是接口&quot;&gt;&lt;/a&gt;什么是接口&lt;/h3&gt;&lt;p&gt;在开发过程中，基本上一直都在接触接口，项目内上层调用下层就是用接口，与其它项目交换信息时也是通过接口。那么接口是什么
+    
+    </summary>
+    
+    
+      <category term="java interface 接口" scheme="http://niushuai.info/tags/java-interface-%E6%8E%A5%E5%8F%A3/"/>
+    
+  </entry>
   
   <entry>
     <title>关闭Mac系统里的自启动项</title>

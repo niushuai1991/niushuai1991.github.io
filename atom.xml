@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://niushuai.info/"/>
-  <updated>2016-09-27T15:45:25.000Z</updated>
+  <updated>2016-09-27T15:53:33.000Z</updated>
   <id>http://niushuai.info/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://niushuai.info/2016/09/27/install-archlinux/"/>
     <id>http://niushuai.info/2016/09/27/install-archlinux/</id>
     <published>2016-09-27T13:53:17.000Z</published>
-    <updated>2016-09-27T15:45:25.000Z</updated>
+    <updated>2016-09-27T15:53:33.000Z</updated>
     
     <content type="html"><![CDATA[<p>Keep it Simple and Stupid  –David Mamet</p>
 <p>KISS是英文Keep it Simple and Stupid的缩写，意为“保持简单和愚蠢”，KISS原则是指将产品设计得越简单越好，避免不必要的东西。一个最典型的例子就是傻瓜相机，操作非常简单，就连傻子都能用它拍摄出曝光准确、影像清晰的照片。而且它还具有体积小、重量轻、价格低廉的优点。</p>
@@ -76,7 +76,9 @@
 <h4 id="用户设置-1"><a href="#用户设置-1" class="headerlink" title="用户设置"></a>用户设置</h4><p>创建一个用户，time是用户名</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">useradd -m -g users -s /bin/bash username</div></pre></td></tr></table></figure>
 <p>设定密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">passwd username</div></pre></td></tr></table></figure></p>
-<p>将这个用户添加到这些组里（-d参数是从组里删除），建议把账号audio,camera,disk,games,lp,network,optical,power,scanner,storage,uucp,wheel<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gpasswd -a username group_name</div></pre></td></tr></table></figure></p>
+<p>添加用户到指定的用户组里<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gpasswd -a username group_name</div></pre></td></tr></table></figure></p>
+<p>建议把账号添加到这些组里：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">audio,camera,disk,games,lp,network,optical,power,scanner,storage,uucp,wheel</div></pre></td></tr></table></figure>
 <h4 id="配置bootloader"><a href="#配置bootloader" class="headerlink" title="配置bootloader"></a>配置bootloader</h4><p>推荐使用grub</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">pacman -S grub-bios</div><div class="line">grub-install --target=i386-pc --recheck /dev/sda</div><div class="line">cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo</div><div class="line">grub-mkconfig -o /boot/grub/grub.cfg</div></pre></td></tr></table></figure>
 <p>如果是双系统，安装这个工具并运行</p>

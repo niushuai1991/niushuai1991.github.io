@@ -1,242 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>牛帅</title>
-  <subtitle>牛帅的博客</subtitle>
-  <link href="/atom.xml" rel="self"/>
   
-  <link href="http://niushuai.info/"/>
-  <updated>2016-10-06T15:46:12.000Z</updated>
-  <id>http://niushuai.info/</id>
+  <subtitle>牛帅的博客</subtitle>
+  <link href="https://niushuai1991.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://niushuai1991.github.io/"/>
+  <updated>2017-02-11T09:29:31.000Z</updated>
+  <id>https://niushuai1991.github.io/</id>
   
   <author>
     <name>niushuai</name>
     
   </author>
   
-  <generator uri="http://hexo.io/">Hexo</generator>
+  <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
     <title>Raspberry Pi 安装VNC远程桌面</title>
-    <link href="http://niushuai.info/2016/10/06/install-vnc-on-raspberry-pi/"/>
-    <id>http://niushuai.info/2016/10/06/install-vnc-on-raspberry-pi/</id>
+    <link href="https://niushuai1991.github.io/2016/10/06/install-vnc-on-raspberry-pi/"/>
+    <id>https://niushuai1991.github.io/2016/10/06/install-vnc-on-raspberry-pi/</id>
     <published>2016-10-06T15:17:20.000Z</published>
-    <updated>2016-10-06T15:46:12.000Z</updated>
+    <updated>2017-02-11T09:29:31.000Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这篇文章是以前我在玩树莓派的时候记录的一篇介绍如何在树莓派上安装VNC Server的教程，虽然已经不玩树莓派了，不过这个教程应该也可以用到普通的linux系统上，虽然我现在用命令行完全可以远程操作linux,不过图形界面可能也会有用武之地吧，所以我从印象笔记中把这篇文章找了出来，在这里存个档。<br>记得当时是参考了一个<a href="http://bbs.shumeipai.org/thread-113-1-1.html" target="_blank" rel="external">bbs.shumeipai.org</a>管理员的帖子，现在这个论坛好像是倒闭了，在此也向前辈们致敬。</p>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>首先是安装VNC Server<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install tightvncserver</div></pre></td></tr></table></figure></p>
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>添加连接密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vncpasswd</div></pre></td></tr></table></figure>
-<p>先输入操作密码两次，然后会询问是否设置一个查看(view-only)密码，按自己需要，一般不需要配置。</p>
-<p>配置开机启动<br>修改文件/etc/init.d/tightvncserver，添加以下内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">#!/bin/sh</div><div class="line">### BEGIN INIT INFO</div><div class="line"># Provides:          tightvncserver</div><div class="line"># Required-Start:    $local_fs</div><div class="line"># Required-Stop:     $local_fs</div><div class="line"># Default-Start:     2 3 4 5</div><div class="line"># Default-Stop:      0 1 6</div><div class="line"># Short-Description: Start/stop tightvncserver</div><div class="line">### END INIT INFO</div><div class="line"></div><div class="line"># More details see:</div><div class="line"># http://www.penguintutor.com/linux/tightvnc</div><div class="line"></div><div class="line">### Customize this entry</div><div class="line"># Set the USER variable to the name of the user to start tightvncserver under</div><div class="line">export USER=&apos;pi&apos;</div><div class="line">### End customization required</div><div class="line"></div><div class="line">eval cd ~$USER</div><div class="line"></div><div class="line">case &quot;$1&quot; in</div><div class="line">start)</div><div class="line"># 启动命令行。此处自定义分辨率、控制台号码或其它参数。</div><div class="line">su $USER -c &apos;/usr/bin/tightvncserver -depth 16 -geometry 800x600 :1&apos;</div><div class="line">echo &quot;Starting TightVNC server for $USER &quot;</div><div class="line">;;</div><div class="line">stop)</div><div class="line"># 终止命令行。此处控制台号码与启动一致。</div><div class="line">su $USER -c &apos;/usr/bin/tightvncserver -kill :1&apos;</div><div class="line">echo &quot;Tightvncserver stopped&quot;</div><div class="line">;;</div><div class="line">*)</div><div class="line">echo &quot;Usage: /etc/init.d/tightvncserver &#123;start|stop&#125;&quot;</div><div class="line">exit 1</div><div class="line">;;</div><div class="line">esac</div><div class="line">exit 0</div></pre></td></tr></table></figure>
-<p>保存后，给该文件添加执行权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo chmod 755 /etc/init.d/tightvncserver</div><div class="line">sudo update-rc.d tightvncserver defaults</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;这篇文章是以前我在玩树莓派的时候记录的一篇介绍如何在树莓派上安装VNC Server的教程，虽然已经不玩树莓派了，不过这个教程应该也可以用到
-    
-    </summary>
+    <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这篇文章是以前我在玩树莓派的时候记录的一篇介绍如何在树莓派上安装VNC Server的教程，虽然已经不玩树莓派了，不过这个教程应该也可以用到普通的linux系统上，虽然我现在用命令行完全可以远程操作linux,不过图形界面可能也会有用武之地吧，所以我从印象笔记中把这篇文章找了出来，在这里存个档。<br>记得当时是参考了一个<a href="http://bbs.shumeipai.org/thread-113-1-1.html">bbs.shumeipai.org</a>管理员的帖子，现在这个论坛好像已经不在了，不过还是感谢他们做出的努力。</p><h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>首先是安装VNC Server</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install tightvncserver</span><br></pre></td></tr></table></figure><h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>添加连接密码</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vncpasswd</span><br></pre></td></tr></table></figure><p>先输入操作密码两次，然后会询问是否设置一个查看(view-only)密码，按自己需要，一般不需要配置。</p><p>配置开机启动<br>修改文件&#x2F;etc&#x2F;init.d&#x2F;tightvncserver，添加以下内容：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">### BEGIN INIT INFO</span><br><span class="line"># Provides:          tightvncserver</span><br><span class="line"># Required-Start:    $local_fs</span><br><span class="line"># Required-Stop:     $local_fs</span><br><span class="line"># Default-Start:     2 3 4 5</span><br><span class="line"># Default-Stop:      0 1 6</span><br><span class="line"># Short-Description: Start/stop tightvncserver</span><br><span class="line">### END INIT INFO</span><br><span class="line"></span><br><span class="line"># More details see:</span><br><span class="line"># http://www.penguintutor.com/linux/tightvnc</span><br><span class="line"></span><br><span class="line">### Customize this entry</span><br><span class="line"># Set the USER variable to the name of the user to start tightvncserver under</span><br><span class="line">export USER=&#x27;pi&#x27;</span><br><span class="line">### End customization required</span><br><span class="line"></span><br><span class="line">eval cd ~$USER</span><br><span class="line"></span><br><span class="line">case &quot;$1&quot; in</span><br><span class="line">start)</span><br><span class="line"># 启动命令行。此处自定义分辨率、控制台号码或其它参数。</span><br><span class="line">su $USER -c &#x27;/usr/bin/tightvncserver -depth 16 -geometry 800x600 :1&#x27;</span><br><span class="line">echo &quot;Starting TightVNC server for $USER &quot;</span><br><span class="line">;;</span><br><span class="line">stop)</span><br><span class="line"># 终止命令行。此处控制台号码与启动一致。</span><br><span class="line">su $USER -c &#x27;/usr/bin/tightvncserver -kill :1&#x27;</span><br><span class="line">echo &quot;Tightvncserver stopped&quot;</span><br><span class="line">;;</span><br><span class="line">*)</span><br><span class="line">echo &quot;Usage: /etc/init.d/tightvncserver &#123;start|stop&#125;&quot;</span><br><span class="line">exit 1</span><br><span class="line">;;</span><br><span class="line">esac</span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure><p>保存后，给该文件添加执行权限</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod 755 /etc/init.d/tightvncserver</span><br><span class="line">sudo update-rc.d tightvncserver defaults</span><br></pre></td></tr></table></figure>]]></content>
     
     
-      <category term="Raspberry Pi" scheme="http://niushuai.info/tags/Raspberry-Pi/"/>
+      
+      
+    <summary type="html">&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;这篇文章是以前我在玩树莓派的时候记录的一篇介绍如何在树莓派上安装VNC Server的教程，虽然已经不玩树莓派了，不过这个教程应该也可以用到</summary>
+      
+    
+    
+    
+    
+    <category term="Raspberry Pi" scheme="https://niushuai1991.github.io/tags/Raspberry-Pi/"/>
     
   </entry>
   
   <entry>
     <title>CentOS下安装LAMP</title>
-    <link href="http://niushuai.info/2016/09/28/setup-lamp-on-centos/"/>
-    <id>http://niushuai.info/2016/09/28/setup-lamp-on-centos/</id>
+    <link href="https://niushuai1991.github.io/2016/09/28/setup-lamp-on-centos/"/>
+    <id>https://niushuai1991.github.io/2016/09/28/setup-lamp-on-centos/</id>
     <published>2016-09-28T15:38:41.000Z</published>
     <updated>2016-09-28T16:08:14.000Z</updated>
     
-    <content type="html"><![CDATA[<p>2013年自己在CentOS里安装LAMP时的笔记，这里存档一份。</p>
-<h2 id="配置防火墙"><a href="#配置防火墙" class="headerlink" title="配置防火墙"></a>配置防火墙</h2><p>方案１.永久关闭防火墙(实验性质的服务器可以这么做，图个方便。真正使用的时候还是要详细配置）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chkconfig iptables off</div></pre></td></tr></table></figure>
-<p>方案２.如果不关闭防火墙，需要开启80和3306端口。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi /etc/sysconfig/iptables</div></pre></td></tr></table></figure>
-<p>在<strong>-A INPUT -m state –state NEW -m tcp -p tcp –dport 22 -j ACCEPT</strong>的下面添加下面的内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT</div><div class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 3306 -j ACCEPT</div></pre></td></tr></table></figure>
-<p>第一行是允许80端口通过防火墙，第二条是允许MySQL所用的3306端口。</p>
-<p>保存后，重启防火墙</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service iptables restart</div></pre></td></tr></table></figure>
-<h2 id="配置apache"><a href="#配置apache" class="headerlink" title="配置apache"></a>配置apache</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">yum install httpd</div><div class="line">chkconfig httpd on  # 设置永久开启服务</div><div class="line">/etc/init.d/httpd start     # 立即开启服务</div></pre></td></tr></table></figure>
-<p>然后访问服务器，验证是否可以访问。</p>
-<h2 id="配置MySQL"><a href="#配置MySQL" class="headerlink" title="配置MySQL"></a>配置MySQL</h2><h3 id="安装MySQL"><a href="#安装MySQL" class="headerlink" title="安装MySQL"></a>安装MySQL</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum -y install mysql mysql-server</div></pre></td></tr></table></figure>
-<p>安装的时候会提示需要下载一些支持包，按y回车。</p>
-<h3 id="启动MySQL"><a href="#启动MySQL" class="headerlink" title="启动MySQL"></a>启动MySQL</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service mysqld start</div></pre></td></tr></table></figure>
-<p>创建系统启动项，创建后MySQL会在开机时自动启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chkconfig --levels 235 mysqld on</div><div class="line">/etc/init.d/mysqld start   # 让MySQL立即运行起来</div></pre></td></tr></table></figure>
-<h3 id="设置MySQL的管理员密码"><a href="#设置MySQL的管理员密码" class="headerlink" title="设置MySQL的管理员密码"></a>设置MySQL的管理员密码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysqladmin -u root password new_password</div></pre></td></tr></table></figure>
-<h2 id="配置PHP"><a href="#配置PHP" class="headerlink" title="配置PHP"></a>配置PHP</h2><p>安装php包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum -y install php</div></pre></td></tr></table></figure>
-<p>安装php所需的组件，使php支持mysql等。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install php-mysql php-gd libjpeg* php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-mcrypt php-bcmath php-mhash libmcrypt</div></pre></td></tr></table></figure>
-<p>然后就是最后，在网站运行的时候，发现网站目录没有写权限，也就是没办法修改网站里的东西。这是权限问题<br>设定网站目录和文件的所有者和所有组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chown -R apache:apache /var/www/html/Data</div></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;2013年自己在CentOS里安装LAMP时的笔记，这里存档一份。&lt;/p&gt;
-&lt;h2 id=&quot;配置防火墙&quot;&gt;&lt;a href=&quot;#配置防火墙&quot; class=&quot;headerlink&quot; title=&quot;配置防火墙&quot;&gt;&lt;/a&gt;配置防火墙&lt;/h2&gt;&lt;p&gt;方案１.永久关闭防火墙(实验性质的
-    
-    </summary>
+    <content type="html"><![CDATA[<p>2013年自己在CentOS里安装LAMP时的笔记，这里存档一份。</p><h2 id="配置防火墙"><a href="#配置防火墙" class="headerlink" title="配置防火墙"></a>配置防火墙</h2><p>方案１.永久关闭防火墙(实验性质的服务器可以这么做，图个方便。真正使用的时候还是要详细配置）</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig iptables off</span><br></pre></td></tr></table></figure><p>方案２.如果不关闭防火墙，需要开启80和3306端口。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysconfig/iptables</span><br></pre></td></tr></table></figure><p>在**-A INPUT -m state –state NEW -m tcp -p tcp –dport 22 -j ACCEPT**的下面添加下面的内容：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT</span><br><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 3306 -j ACCEPT</span><br></pre></td></tr></table></figure><p>第一行是允许80端口通过防火墙，第二条是允许MySQL所用的3306端口。</p><p>保存后，重启防火墙</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service iptables restart</span><br></pre></td></tr></table></figure><h2 id="配置apache"><a href="#配置apache" class="headerlink" title="配置apache"></a>配置apache</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install httpd</span><br><span class="line">chkconfig httpd on  # 设置永久开启服务</span><br><span class="line">/etc/init.d/httpd start     # 立即开启服务</span><br></pre></td></tr></table></figure><p>然后访问服务器，验证是否可以访问。</p><h2 id="配置MySQL"><a href="#配置MySQL" class="headerlink" title="配置MySQL"></a>配置MySQL</h2><h3 id="安装MySQL"><a href="#安装MySQL" class="headerlink" title="安装MySQL"></a>安装MySQL</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install mysql mysql-server  </span><br></pre></td></tr></table></figure><p>安装的时候会提示需要下载一些支持包，按y回车。</p><h3 id="启动MySQL"><a href="#启动MySQL" class="headerlink" title="启动MySQL"></a>启动MySQL</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld start</span><br></pre></td></tr></table></figure><p>创建系统启动项，创建后MySQL会在开机时自动启动</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --levels 235 mysqld on</span><br><span class="line">/etc/init.d/mysqld start   # 让MySQL立即运行起来</span><br></pre></td></tr></table></figure><h3 id="设置MySQL的管理员密码"><a href="#设置MySQL的管理员密码" class="headerlink" title="设置MySQL的管理员密码"></a>设置MySQL的管理员密码</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root password new_password</span><br></pre></td></tr></table></figure><h2 id="配置PHP"><a href="#配置PHP" class="headerlink" title="配置PHP"></a>配置PHP</h2><p>安装php包</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install php</span><br></pre></td></tr></table></figure><p>安装php所需的组件，使php支持mysql等。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install php-mysql php-gd libjpeg* php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-mcrypt php-bcmath php-mhash libmcrypt</span><br></pre></td></tr></table></figure><p>然后就是最后，在网站运行的时候，发现网站目录没有写权限，也就是没办法修改网站里的东西。这是权限问题<br>设定网站目录和文件的所有者和所有组</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R apache:apache /var/www/html/Data</span><br></pre></td></tr></table></figure>]]></content>
     
     
-      <category term="centos" scheme="http://niushuai.info/tags/centos/"/>
+      
+      
+    <summary type="html">&lt;p&gt;2013年自己在CentOS里安装LAMP时的笔记，这里存档一份。&lt;/p&gt;
+&lt;h2 id=&quot;配置防火墙&quot;&gt;&lt;a href=&quot;#配置防火墙&quot; class=&quot;headerlink&quot; title=&quot;配置防火墙&quot;&gt;&lt;/a&gt;配置防火墙&lt;/h2&gt;&lt;p&gt;方案１.永久关闭防火墙(实验性质的</summary>
+      
     
-      <category term="lamp" scheme="http://niushuai.info/tags/lamp/"/>
+    
+    
+    
+    <category term="centos" scheme="https://niushuai1991.github.io/tags/centos/"/>
+    
+    <category term="lamp" scheme="https://niushuai1991.github.io/tags/lamp/"/>
     
   </entry>
   
   <entry>
     <title>安装Arch linux</title>
-    <link href="http://niushuai.info/2016/09/27/install-archlinux/"/>
-    <id>http://niushuai.info/2016/09/27/install-archlinux/</id>
+    <link href="https://niushuai1991.github.io/2016/09/27/install-archlinux/"/>
+    <id>https://niushuai1991.github.io/2016/09/27/install-archlinux/</id>
     <published>2016-09-27T13:53:17.000Z</published>
-    <updated>2016-09-28T16:07:13.000Z</updated>
+    <updated>2024-10-27T17:37:17.648Z</updated>
     
-    <content type="html"><![CDATA[<p>Keep it Simple and Stupid  –David Mamet</p>
-<p>KISS是英文Keep it Simple and Stupid的缩写，意为“保持简单和愚蠢”，KISS原则是指将产品设计得越简单越好，避免不必要的东西。一个最典型的例子就是傻瓜相机，操作非常简单，就连傻子都能用它拍摄出曝光准确、影像清晰的照片。而且它还具有体积小、重量轻、价格低廉的优点。</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>为什么会说到KISS原则呢？因为这里要说的Arch Linux，它的开发团队设计时就是遵循KISS原则，也就造就了一个轻量、简单的Arch Linux。我是在2012年的时候尝试在虚拟机里安装了这个linux发行版本，随后又试用了一段时间，简单概括就是：真的好简单！以至于有点简陋了，比如说安装系统时的图形安装模式，还有安装后只是一个基本的系统，连图形界面都没有。不过优点就是可以自己完全去定制整个系统。</p>
-<p>Arch Linux的安装过程有两种方式，一种是命令行界面，一种是图形界面的。命令行界面就是，启动进入一个Arch Linux的命令行环境，则用户自己用命令去格式化磁盘、复制系统软件、修改系统配置、网络配置等。图形界面安装其实就是把前面这些操作做成了一个向导，选择进行安装，不过也不能使用鼠标。我当时一边用浏览器看官网的安装向导，一边用命令安装，麻烦就在于网络配置部分，因为没有图形界面，配置起来挺繁琐的。</p>
-<p>Arch Linux的包管理器是pacman，最常用的几个比如安装软件、更新软件包等命令这里简单介绍一下，主要是因为好久没用了，我也忘了。</p>
-<p>更新软件包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pacman -Syu</div></pre></td></tr></table></figure>
-<p>安装软件包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pacman -S package_name [package_name...]</div></pre></td></tr></table></figure>
-<h2 id="Arch-Linux安装过程"><a href="#Arch-Linux安装过程" class="headerlink" title="Arch Linux安装过程"></a>Arch Linux安装过程</h2><h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>参考archlinux官方英文<a href="https://wiki.archlinux.org/index.php/Installation_guide" target="_blank" rel="external">安装指导</a>，安装archlinux<br>安装环境：virtualbox<br>磁盘工具：cfdisk<br>sda1 /boot<br>sda2 /<br>sda3 swap<br>sda4 /home</p>
-<p>查看分区<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lsblk /dev/sda</div></pre></td></tr></table></figure></p>
-<p>修改卷标<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">e2label /dev/sda1 boot</div></pre></td></tr></table></figure></p>
-<p>安装基本系统</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pacstrap -i /mnt base base-devel</div></pre></td></tr></table></figure>
-<p>修改软件源</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi /etc/pacman.d/mirrorlist</div></pre></td></tr></table></figure>
-<p>把里面China的源都放在最前面<br>注：163和suho的源可能会导致软件无法安装！</p>
-<p>生成fstab<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">genfstab -U -p /mnt &gt;&gt; /mnt/etc/fstab</div></pre></td></tr></table></figure></p>
-<p>切换根目录,切换到新安装的系统的更目录，便于之后的操作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">arch-chroot /mnt</div></pre></td></tr></table></figure>
-<p>本地化</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi /etc/locale.gen</div></pre></td></tr></table></figure>
-<p>删除掉en_US.UTF-8 UTF-8和后面zh_CN开头的，前面的#号</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi /etc/locale.conf</div></pre></td></tr></table></figure>
-<p>加入以下内容。LC_TIME如果写成LANG=zh_CN.UTF-8 会影响终端下的文字。暂时用英文。<br>LANG=en_US.UTF-8<br>LC_TIME=en_GB.UTF-8</p>
-<p>设置时区</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi /etc/timezone</div></pre></td></tr></table></figure>
-<p>在里面写入<strong>Asia/Shanghai</strong></p>
-<p>软连接时区</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</div></pre></td></tr></table></figure>
-<p>硬件时间改为utc时间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hwclock --systohc --utc</div></pre></td></tr></table></figure>
-<h3 id="网络设置"><a href="#网络设置" class="headerlink" title="网络设置"></a>网络设置</h3><h4 id="有线网卡"><a href="#有线网卡" class="headerlink" title="有线网卡"></a>有线网卡</h4><p>方式一：<br>有线网卡并且是动态ip，并且一直不变，输入下面的命令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl enable dhcpcd@eth0.service</div></pre></td></tr></table></figure>
-<p>需要的时候可以用下面的命令禁用。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl disable dhcpcd@eth0.service</div></pre></td></tr></table></figure>
-<p>方式二：<br>安装网络管理器netcfg</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pacman -S ifplugd</div></pre></td></tr></table></figure>
-<p>如果是动态ip，把/etc/network.d/examples/ethernet-dhcp链接到/etc/network.d下。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd /etc/network.d</div><div class="line">ln -s examples/ethernet-dhcp .</div></pre></td></tr></table></figure>
-<p>静态ip</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd /etc/network.d</div><div class="line">cp examples/ethernet-static .</div><div class="line">vi /ethernet-static (需要手动配置)</div></pre></td></tr></table></figure>
-<p>最后启动服务</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl enable net-auto-wired.service</div></pre></td></tr></table></figure>
-<h4 id="无线网卡"><a href="#无线网卡" class="headerlink" title="无线网卡"></a>无线网卡</h4><p>这里没有详细的介绍。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pacman -S wireless_tools wpa_supplicant wpa_actiond dialog</div></pre></td></tr></table></figure>
-<h3 id="修改软件源"><a href="#修改软件源" class="headerlink" title="修改软件源"></a>修改软件源</h3><p>启用[multilib]源，则可以让64位系统运行32位的软件，编辑<strong>/etc/pacman.d/mirrorlist</strong>，启用[multilib]源，可以参考<a href="https://wiki.archlinux.org/index.php/Multilib" target="_blank" rel="external">官方的WIKI</a>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi /etc/pacman.conf</div></pre></td></tr></table></figure>
-<p>在文件中找到下面两行代码，取消注释</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[multilib]</div><div class="line">Include = /etc/pacman.d/mirrorlist</div></pre></td></tr></table></figure>
-<h3 id="用户设置"><a href="#用户设置" class="headerlink" title="用户设置"></a>用户设置</h3><h4 id="设置root密码"><a href="#设置root密码" class="headerlink" title="设置root密码"></a>设置root密码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">passwd</div></pre></td></tr></table></figure>
-<h4 id="用户设置-1"><a href="#用户设置-1" class="headerlink" title="用户设置"></a>用户设置</h4><p>创建一个用户，time是用户名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">useradd -m -g users -s /bin/bash username</div></pre></td></tr></table></figure>
-<p>设定密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">passwd username</div></pre></td></tr></table></figure></p>
-<p>添加用户到指定的用户组里<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gpasswd -a username group_name</div></pre></td></tr></table></figure></p>
-<p>建议把账号添加到这些组里：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">audio,camera,disk,games,lp,network,optical,power,scanner,storage,uucp,wheel</div></pre></td></tr></table></figure>
-<h4 id="配置bootloader"><a href="#配置bootloader" class="headerlink" title="配置bootloader"></a>配置bootloader</h4><p>推荐使用grub</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">pacman -S grub-bios</div><div class="line">grub-install --target=i386-pc --recheck /dev/sda</div><div class="line">cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo</div><div class="line">grub-mkconfig -o /boot/grub/grub.cfg</div></pre></td></tr></table></figure>
-<p>如果是双系统，安装这个工具并运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pacman -S os-prober</div></pre></td></tr></table></figure>
-<h3 id="后言"><a href="#后言" class="headerlink" title="后言"></a>后言</h3><p>到此，一个命令行的linux已经算是做好了，想用带窗口的？就需要后续完善过程，包括安装图形界面，输入法，中文化，及常用的软件。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Keep it Simple and Stupid  –David Mamet&lt;/p&gt;
-&lt;p&gt;KISS是英文Keep it Simple and Stupid的缩写，意为“保持简单和愚蠢”，KISS原则是指将产品设计得越简单越好，避免不必要的东西。一个最典型的例子就是傻瓜相
-    
-    </summary>
+    <content type="html"><![CDATA[<p>Keep it Simple and Stupid  –David Mamet</p><p>KISS是英文Keep it Simple and Stupid的缩写，意为“保持简单和愚蠢”，KISS原则是指将产品设计得越简单越好，避免不必要的东西。一个最典型的例子就是傻瓜相机，操作非常简单，就连傻子都能用它拍摄出曝光准确、影像清晰的照片。而且它还具有体积小、重量轻、价格低廉的优点。</p><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>为什么会说到KISS原则呢？因为这里要说的Arch Linux，它的开发团队设计时就是遵循KISS原则，也就造就了一个轻量、简单的Arch Linux。我是在2012年的时候尝试在虚拟机里安装了这个linux发行版本，随后又试用了一段时间，简单概括就是：真的好简单！以至于有点简陋了，比如说安装系统时的图形安装模式，还有安装后只是一个基本的系统，连图形界面都没有。不过优点就是可以自己完全去定制整个系统。</p><p>Arch Linux的安装过程有两种方式，一种是命令行界面，一种是图形界面的。命令行界面就是，启动进入一个Arch Linux的命令行环境，则用户自己用命令去格式化磁盘、复制系统软件、修改系统配置、网络配置等。图形界面安装其实就是把前面这些操作做成了一个向导，选择进行安装，不过也不能使用鼠标。我当时一边用浏览器看官网的安装向导，一边用命令安装，麻烦就在于网络配置部分，因为没有图形界面，配置起来挺繁琐的。</p><p>Arch Linux的包管理器是pacman，最常用的几个比如安装软件、更新软件包等命令这里简单介绍一下，主要是因为好久没用了，我也忘了。</p><p>更新软件包</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -Syu</span><br></pre></td></tr></table></figure><p>安装软件包</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S package_name [package_name...]</span><br></pre></td></tr></table></figure><h2 id="Arch-Linux安装过程"><a href="#Arch-Linux安装过程" class="headerlink" title="Arch Linux安装过程"></a>Arch Linux安装过程</h2><h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>参考archlinux官方英文<a href="https://wiki.archlinux.org/index.php/Installation_guide">安装指导</a>，安装archlinux<br>安装环境：virtualbox<br>磁盘工具：cfdisk<br>sda1 &#x2F;boot<br>sda2 &#x2F;<br>sda3 swap<br>sda4 &#x2F;home</p><p>查看分区</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsblk /dev/sda</span><br></pre></td></tr></table></figure><p>修改卷标</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">e2label /dev/sda1 boot</span><br></pre></td></tr></table></figure><p>安装基本系统</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacstrap -i /mnt base base-devel</span><br></pre></td></tr></table></figure><p>修改软件源</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/pacman.d/mirrorlist</span><br></pre></td></tr></table></figure><p>把里面China的源都放在最前面<br>注：163和suho的源可能会导致软件无法安装！</p><p>生成fstab</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">genfstab -U -p /mnt &gt;&gt; /mnt/etc/fstab</span><br></pre></td></tr></table></figure><p>切换根目录,切换到新安装的系统的更目录，便于之后的操作</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arch-chroot /mnt</span><br></pre></td></tr></table></figure><p>本地化</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/locale.gen</span><br></pre></td></tr></table></figure><p>删除掉en_US.UTF-8 UTF-8和后面zh_CN开头的，前面的#号</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/locale.conf</span><br></pre></td></tr></table></figure><p>加入以下内容。LC_TIME如果写成LANG&#x3D;zh_CN.UTF-8 会影响终端下的文字。暂时用英文。<br>LANG&#x3D;en_US.UTF-8<br>LC_TIME&#x3D;en_GB.UTF-8</p><p>设置时区</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/timezone</span><br></pre></td></tr></table></figure><p>在里面写入<strong>Asia&#x2F;Shanghai</strong></p><p>软连接时区</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br></pre></td></tr></table></figure><p>硬件时间改为utc时间</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hwclock --systohc --utc</span><br></pre></td></tr></table></figure><h3 id="网络设置"><a href="#网络设置" class="headerlink" title="网络设置"></a>网络设置</h3><h4 id="有线网卡"><a href="#有线网卡" class="headerlink" title="有线网卡"></a>有线网卡</h4><p>方式一：<br>有线网卡并且是动态ip，并且一直不变，输入下面的命令。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable dhcpcd@eth0.service</span><br></pre></td></tr></table></figure><p>需要的时候可以用下面的命令禁用。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl disable dhcpcd@eth0.service</span><br></pre></td></tr></table></figure><p>方式二：<br>安装网络管理器netcfg</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S ifplugd</span><br></pre></td></tr></table></figure><p>如果是动态ip，把&#x2F;etc&#x2F;network.d&#x2F;examples&#x2F;ethernet-dhcp链接到&#x2F;etc&#x2F;network.d下。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/network.d</span><br><span class="line">ln -s examples/ethernet-dhcp .</span><br></pre></td></tr></table></figure><p>静态ip</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/network.d</span><br><span class="line">cp examples/ethernet-static .</span><br><span class="line">vi /ethernet-static (需要手动配置)</span><br></pre></td></tr></table></figure><p>最后启动服务</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable net-auto-wired.service</span><br></pre></td></tr></table></figure><h4 id="无线网卡"><a href="#无线网卡" class="headerlink" title="无线网卡"></a>无线网卡</h4><p>这里没有详细的介绍。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S wireless_tools wpa_supplicant wpa_actiond dialog</span><br></pre></td></tr></table></figure><h3 id="修改软件源"><a href="#修改软件源" class="headerlink" title="修改软件源"></a>修改软件源</h3><p>启用[multilib]源，则可以让64位系统运行32位的软件，编辑**&#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist**，启用[multilib]源，可以参考<a href="https://wiki.archlinux.org/index.php/Multilib">官方的WIKI</a>。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/pacman.conf</span><br></pre></td></tr></table></figure><p>在文件中找到下面两行代码，取消注释</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[multilib]</span><br><span class="line">Include = /etc/pacman.d/mirrorlist</span><br></pre></td></tr></table></figure><h3 id="用户设置"><a href="#用户设置" class="headerlink" title="用户设置"></a>用户设置</h3><h4 id="设置root密码"><a href="#设置root密码" class="headerlink" title="设置root密码"></a>设置root密码</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd</span><br></pre></td></tr></table></figure><h4 id="用户设置-1"><a href="#用户设置-1" class="headerlink" title="用户设置"></a>用户设置</h4><p>创建一个用户，time是用户名</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd -m -g users -s /bin/bash username</span><br></pre></td></tr></table></figure><p>设定密码</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd username</span><br></pre></td></tr></table></figure><p>添加用户到指定的用户组里</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpasswd -a username group_name</span><br></pre></td></tr></table></figure><p>建议把账号添加到这些组里：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">audio,camera,disk,games,lp,network,optical,power,scanner,storage,uucp,wheel</span><br></pre></td></tr></table></figure><h4 id="配置bootloader"><a href="#配置bootloader" class="headerlink" title="配置bootloader"></a>配置bootloader</h4><p>推荐使用grub</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pacman -S grub-bios</span><br><span class="line">grub-install --target=i386-pc --recheck /dev/sda</span><br><span class="line">cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo</span><br><span class="line">grub-mkconfig -o /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure><p>如果是双系统，安装这个工具并运行</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S os-prober</span><br></pre></td></tr></table></figure><h3 id="后言"><a href="#后言" class="headerlink" title="后言"></a>后言</h3><p>到此，一个命令行的linux已经算是做好了，想用带窗口的？就需要后续完善过程，包括安装图形界面，输入法，中文化，及常用的软件。</p>]]></content>
     
     
-      <category term="linux" scheme="http://niushuai.info/tags/linux/"/>
+      
+      
+    <summary type="html">&lt;p&gt;Keep it Simple and Stupid  –David Mamet&lt;/p&gt;
+&lt;p&gt;KISS是英文Keep it Simple and Stupid的缩写，意为“保持简单和愚蠢”，KISS原则是指将产品设计得越简单越好，避免不必要的东西。一个最典型的例子就是傻瓜相</summary>
+      
+    
+    
+    
+    
+    <category term="linux" scheme="https://niushuai1991.github.io/tags/linux/"/>
     
   </entry>
   
   <entry>
     <title>什么是接口</title>
-    <link href="http://niushuai.info/2016/09/21/interface/"/>
-    <id>http://niushuai.info/2016/09/21/interface/</id>
+    <link href="https://niushuai1991.github.io/2016/09/21/interface/"/>
+    <id>https://niushuai1991.github.io/2016/09/21/interface/</id>
     <published>2016-09-21T12:52:48.000Z</published>
     <updated>2016-09-28T16:07:30.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="什么是接口"><a href="#什么是接口" class="headerlink" title="什么是接口"></a>什么是接口</h3><p>在开发过程中，基本上一直都在接触接口，项目内上层调用下层就是用接口，与其它项目交换信息时也是通过接口。那么接口是什么呢？</p>
-<p>接口是一些方法的特征的集合，接口里面只有方法的特征而没有方法的具体实现。当我们看到接口的时候，就知道这个接口有哪些特征、它怎么用。比如说我们看到Runnable接口，里面只有一个抽象的run()方法，我们就知道是要把自己的业务方法放到run方法。而为什么要有Runnable接口呢？是因为Thread对象是默认我们给它的对象是有一个公有的、没有参数、没有返回值的run方法，不然线程没办法正常运行。如果我们给方法换一个名字，那Thread就找不到这个方法，线程也没办法按我们想的那样去运行。<br>有同学问：那为什么我们不去修改这个Thread类，把我们的方法放到Thread类里面呢？这个问题问的好！因为Thread类是大家都在用的，特别是协同工作的时候，公共的东西一旦被修改，很有可能会影响到别人的功能，用接口的话就实现了隔离，把我们自己的东西放在自己这边，把公有的东西还放在那不动，只按照它的规则去调用它即可。<br>所以从这里可以看出：<strong><em>接口就是一个统一的规范</em></strong>，它规定我们应该做一个什么样的东西，其它的对象就可以去调用我们的方法而不去管我们是怎么做的，如果因为业务的变动，需要我们重写这些方法，只要我们继承了这个接口，实现方法，就依然能够正常使用。</p>
-<h3 id="使用接口有什么好处？"><a href="#使用接口有什么好处？" class="headerlink" title="使用接口有什么好处？"></a>使用接口有什么好处？</h3><ol>
-<li>使用接口的话，就不用是关心对应的方法是怎么实现了，只要按接口去用即可。减少了工作量。</li>
-<li>因为接口的规范性，只要接口没有变化，那不用关心接口的实现是否修改，调用方都不需要去修改实现逻辑。所以提高的代码的灵活性和可维护性。</li>
-<li>如果不同层面之间使用接口的话，能够做到同时开发，不需要等对方把方法写出来。提高了工作效率。</li>
-</ol>
-<h3 id="接口和抽象类有什么区别？"><a href="#接口和抽象类有什么区别？" class="headerlink" title="接口和抽象类有什么区别？"></a>接口和抽象类有什么区别？</h3><p>接口和抽象类虽然大体是类似，如果抽象类里都是抽象方法的话，和接口基本上就一致了。但是它们两个仍然是不同的东西。当一些类具有相同的实现时，我们就可以把这些实现提取到抽象类中，实现了代码的重复使用。而接口是规定它的子类应该实现的一些规范。也就是说接口和抽象类区别就在于它们的使用目的上。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;什么是接口&quot;&gt;&lt;a href=&quot;#什么是接口&quot; class=&quot;headerlink&quot; title=&quot;什么是接口&quot;&gt;&lt;/a&gt;什么是接口&lt;/h3&gt;&lt;p&gt;在开发过程中，基本上一直都在接触接口，项目内上层调用下层就是用接口，与其它项目交换信息时也是通过接口。那么接口是什么
-    
-    </summary>
+    <content type="html"><![CDATA[<h3 id="什么是接口"><a href="#什么是接口" class="headerlink" title="什么是接口"></a>什么是接口</h3><p>在开发过程中，基本上一直都在接触接口，项目内上层调用下层就是用接口，与其它项目交换信息时也是通过接口。那么接口是什么呢？</p><p>接口是一些方法的特征的集合，接口里面只有方法的特征而没有方法的具体实现。当我们看到接口的时候，就知道这个接口有哪些特征、它怎么用。比如说我们看到Runnable接口，里面只有一个抽象的run()方法，我们就知道是要把自己的业务方法放到run方法。而为什么要有Runnable接口呢？是因为Thread对象是默认我们给它的对象是有一个公有的、没有参数、没有返回值的run方法，不然线程没办法正常运行。如果我们给方法换一个名字，那Thread就找不到这个方法，线程也没办法按我们想的那样去运行。<br>有同学问：那为什么我们不去修改这个Thread类，把我们的方法放到Thread类里面呢？这个问题问的好！因为Thread类是大家都在用的，特别是协同工作的时候，公共的东西一旦被修改，很有可能会影响到别人的功能，用接口的话就实现了隔离，把我们自己的东西放在自己这边，把公有的东西还放在那不动，只按照它的规则去调用它即可。<br>所以从这里可以看出：<em><strong>接口就是一个统一的规范</strong></em>，它规定我们应该做一个什么样的东西，其它的对象就可以去调用我们的方法而不去管我们是怎么做的，如果因为业务的变动，需要我们重写这些方法，只要我们继承了这个接口，实现方法，就依然能够正常使用。</p><h3 id="使用接口有什么好处？"><a href="#使用接口有什么好处？" class="headerlink" title="使用接口有什么好处？"></a>使用接口有什么好处？</h3><ol><li>使用接口的话，就不用是关心对应的方法是怎么实现了，只要按接口去用即可。减少了工作量。</li><li>因为接口的规范性，只要接口没有变化，那不用关心接口的实现是否修改，调用方都不需要去修改实现逻辑。所以提高的代码的灵活性和可维护性。</li><li>如果不同层面之间使用接口的话，能够做到同时开发，不需要等对方把方法写出来。提高了工作效率。</li></ol><h3 id="接口和抽象类有什么区别？"><a href="#接口和抽象类有什么区别？" class="headerlink" title="接口和抽象类有什么区别？"></a>接口和抽象类有什么区别？</h3><p>接口和抽象类虽然大体是类似，如果抽象类里都是抽象方法的话，和接口基本上就一致了。但是它们两个仍然是不同的东西。当一些类具有相同的实现时，我们就可以把这些实现提取到抽象类中，实现了代码的重复使用。而接口是规定它的子类应该实现的一些规范。也就是说接口和抽象类区别就在于它们的使用目的上。</p>]]></content>
     
     
-      <category term="java" scheme="http://niushuai.info/tags/java/"/>
+      
+      
+    <summary type="html">&lt;h3 id=&quot;什么是接口&quot;&gt;&lt;a href=&quot;#什么是接口&quot; class=&quot;headerlink&quot; title=&quot;什么是接口&quot;&gt;&lt;/a&gt;什么是接口&lt;/h3&gt;&lt;p&gt;在开发过程中，基本上一直都在接触接口，项目内上层调用下层就是用接口，与其它项目交换信息时也是通过接口。那么接口是什么</summary>
+      
     
-      <category term="interface" scheme="http://niushuai.info/tags/interface/"/>
+    
+    
+    
+    <category term="java" scheme="https://niushuai1991.github.io/tags/java/"/>
+    
+    <category term="interface" scheme="https://niushuai1991.github.io/tags/interface/"/>
     
   </entry>
   
   <entry>
     <title>关闭Mac系统里的自启动项</title>
-    <link href="http://niushuai.info/2016/09/12/disabled-mac-login-items/"/>
-    <id>http://niushuai.info/2016/09/12/disabled-mac-login-items/</id>
+    <link href="https://niushuai1991.github.io/2016/09/12/disabled-mac-login-items/"/>
+    <id>https://niushuai1991.github.io/2016/09/12/disabled-mac-login-items/</id>
     <published>2016-09-12T14:26:20.000Z</published>
     <updated>2016-09-21T12:29:01.000Z</updated>
     
-    <content type="html"><![CDATA[<p>用Mac就是图个清静，所以广告不能忍。</p>
-<p>##突然出现的广告<br>这两天我如往常一样，用着Mac写代码、上网。然后，突然在我的屏幕上弹出了一个Paragon NTFS的广告，当时我就纳闷了：以前有次是要用ntfs格式的移动硬盘，在网上找了找，都说Paragon NTFS比较好，我当时就装了一个，因为是要收费的，后来我就换了mounty，把它卸载了。怎么现在还会提示广告呢？<br><img src="/2016/09/12/disabled-mac-login-items/paragon-updater.png" alt="paragon-updater.png" title=""><br>当时我是用的清理软件把Paragon NTFS给卸载了，是不是残留了一些文件？</p>
-<p>##寻找程序位置<br>我打开[Activity Montitor]，然后找到了进程[Paragon Updater]，点齿轮图标后的向下箭头，选择[Sample Process]，然后弹出[Sample of Paragon Updater]，窗口中就显示了这个进程的相关信息：<br><img src="/2016/09/12/disabled-mac-login-items/sample-of-paragon-updater.png" alt="sample-of-paragon-updater.png" title=""></p>
-<p> 其中最重要的一条信息：</p>
-<p><strong><em>Path: /Library/Application Support/Paragon Updater/Paragon Updater.app/Contents/MacOS/Paragon Updater</em></strong></p>
-<p>用Finder打开这个路径，就找到了Paragon Updater程序。正准备删除的时候，突然想到：它是怎么被启动的呢？我完全没有去操作它呀？肯定是开机启动项！</p>
-<p>##登录启动<br>一般的程序，会创建一条登录启动项，在用户登录进系统后，启动对应的应用程序。查看登录启动项的方法：点击苹果LOGO-&gt;[System Preferences]-&gt;[Users &amp; Groups]，然后右边的选项卡选择[Login Items]，就可以看到自己账户下的启动项了。不过并没有在这里看到Paragon Updater。</p>
-<p>除了登录启动项，还有开机自启动项。</p>
-<p>##开机自启动<br>Mac系统有一个命令行工具launchctl，一些程序会把自己的配置文件放在特定的目录里，然后通过这个工具创建自启动服务，配置文件放在以下三个位置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/Library/LaunchDaemons/</div><div class="line">/Library/LaunchAgents/</div><div class="line">~/Library/LaunchAgents/</div></pre></td></tr></table></figure>
-<p>最后，我在/Library/LaunchDaemons/和/Library/LaunchAgents/里都找到了Paragon相关的启动项配置文件，/Library/LaunchAgents/com.paragon.updater.plist这个文件就是启动Paragon Updater的配置文件。</p>
-<p>##动手清理<br>  看了这么多，最后可以动手清理了，自启动配置文件不要直接删除，而是先用launchctl将它从自启动里取消，然后再删除。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo launchctl unload /Library/LaunchAgents/com.paragon.updater.plist</div><div class="line">sudo launchctl unload /Library/LaunchDaemons/com.paragon.ntfs12.refresh.plist</div><div class="line">sudo rm -f /Library/LaunchAgents/com.paragon.updater.plist</div><div class="line">sudo rm -f /Library/LaunchDaemons/com.paragon.ntfs12.refresh.plist</div></pre></td></tr></table></figure>
-<p>再去删除/Library/Application Support下的Paragon Software和Paragon Updater即可。</p>
-<p>该方法应该能适用于其它程序的类似情况。</p>
-<p>世界又恢复了以往的平静。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;用Mac就是图个清静，所以广告不能忍。&lt;/p&gt;
-&lt;p&gt;##突然出现的广告&lt;br&gt;这两天我如往常一样，用着Mac写代码、上网。然后，突然在我的屏幕上弹出了一个Paragon NTFS的广告，当时我就纳闷了：以前有次是要用ntfs格式的移动硬盘，在网上找了找，都说Paragon
-    
-    </summary>
+    <content type="html"><![CDATA[<p>用Mac就是图个清静，所以广告不能忍。</p><p>##突然出现的广告<br>这两天我如往常一样，用着Mac写代码、上网。然后，突然在我的屏幕上弹出了一个Paragon NTFS的广告，当时我就纳闷了：以前有次是要用ntfs格式的移动硬盘，在网上找了找，都说Paragon NTFS比较好，我当时就装了一个，因为是要收费的，后来我就换了mounty，把它卸载了。怎么现在还会提示广告呢？</p><img src="/2016/09/12/disabled-mac-login-items/paragon-updater.png" class=""><p>当时我是用的清理软件把Paragon NTFS给卸载了，是不是残留了一些文件？<br>##寻找程序位置<br>我打开[Activity Montitor]，然后找到了进程[Paragon Updater]，点齿轮图标后的向下箭头，选择[Sample Process]，然后弹出[Sample of Paragon Updater]，窗口中就显示了这个进程的相关信息：</p><img src="/2016/09/12/disabled-mac-login-items/sample-of-paragon-updater.png" class=""><p> 其中最重要的一条信息：</p><p><em><strong>Path: &#x2F;Library&#x2F;Application Support&#x2F;Paragon Updater&#x2F;Paragon Updater.app&#x2F;Contents&#x2F;MacOS&#x2F;Paragon Updater</strong></em></p><p>用Finder打开这个路径，就找到了Paragon Updater程序。正准备删除的时候，突然想到：它是怎么被启动的呢？我完全没有去操作它呀？肯定是开机启动项！<br>##登录启动<br>一般的程序，会创建一条登录启动项，在用户登录进系统后，启动对应的应用程序。查看登录启动项的方法：点击苹果LOGO-&gt;[System Preferences]-&gt;[Users &amp; Groups]，然后右边的选项卡选择[Login Items]，就可以看到自己账户下的启动项了。不过并没有在这里看到Paragon Updater。</p><p>除了登录启动项，还有开机自启动项。<br>##开机自启动<br>Mac系统有一个命令行工具launchctl，一些程序会把自己的配置文件放在特定的目录里，然后通过这个工具创建自启动服务，配置文件放在以下三个位置：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/Library/LaunchDaemons/</span><br><span class="line">/Library/LaunchAgents/</span><br><span class="line">~/Library/LaunchAgents/</span><br></pre></td></tr></table></figure><p>最后，我在&#x2F;Library&#x2F;LaunchDaemons&#x2F;和&#x2F;Library&#x2F;LaunchAgents&#x2F;里都找到了Paragon相关的启动项配置文件，&#x2F;Library&#x2F;LaunchAgents&#x2F;com.paragon.updater.plist这个文件就是启动Paragon Updater的配置文件。<br>##动手清理<br>  看了这么多，最后可以动手清理了，自启动配置文件不要直接删除，而是先用launchctl将它从自启动里取消，然后再删除。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo launchctl unload /Library/LaunchAgents/com.paragon.updater.plist</span><br><span class="line">sudo launchctl unload /Library/LaunchDaemons/com.paragon.ntfs12.refresh.plist</span><br><span class="line">sudo rm -f /Library/LaunchAgents/com.paragon.updater.plist</span><br><span class="line">sudo rm -f /Library/LaunchDaemons/com.paragon.ntfs12.refresh.plist</span><br></pre></td></tr></table></figure><p>再去删除&#x2F;Library&#x2F;Application Support下的Paragon Software和Paragon Updater即可。</p><p>该方法应该能适用于其它程序的类似情况。</p><p>世界又恢复了以往的平静。</p>]]></content>
     
     
-      <category term="linux" scheme="http://niushuai.info/tags/linux/"/>
+      
+      
+    <summary type="html">&lt;p&gt;用Mac就是图个清静，所以广告不能忍。&lt;/p&gt;
+&lt;p&gt;##突然出现的广告&lt;br&gt;这两天我如往常一样，用着Mac写代码、上网。然后，突然在我的屏幕上弹出了一个Paragon NTFS的广告，当时我就纳闷了：以前有次是要用ntfs格式的移动硬盘，在网上找了找，都说Paragon</summary>
+      
+    
+    
+    
+    
+    <category term="linux" scheme="https://niushuai1991.github.io/tags/linux/"/>
     
   </entry>
   
